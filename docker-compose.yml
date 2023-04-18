@@ -39,12 +39,17 @@ services:
     build: ./api-gateway/
     ports:
       - "8079:8079"
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - discovery
   bookings:
     build: ./bookings/
     ports:
       - "8080:8080"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/bookings 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
@@ -52,6 +57,9 @@ services:
     build: ./rooms/
     ports:
       - "8081:8081"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/bookings 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
@@ -59,6 +67,9 @@ services:
     build: ./payments/
     ports:
       - "8083:8083"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/payments 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
@@ -66,6 +77,9 @@ services:
     build: ./notifications/
     ports:
       - "8082:8082"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/notifications 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
@@ -73,6 +87,9 @@ services:
     build: ./support/
     ports:
       - "8084:8084"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/support 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
@@ -80,6 +97,9 @@ services:
     build: ./checking/
     ports:
       - "8085:8085"
+    environment:
+      spring.datasource.url: jdbc:postgresql://db/checking 
+      eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - db
       - discovery
