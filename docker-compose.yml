@@ -40,7 +40,7 @@ services:
     ports:
       - "8079:8079"
     environment:
-          spring.datasource.url: jdbc:postgresql://db/bookings 
+      spring.datasource.url: jdbc:postgresql://db/bookings 
       eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka
     depends_on:
       - discovery
