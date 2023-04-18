@@ -16,11 +16,6 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<springdoc.version>1.6.8</springdoc.version>
-		<swagger-ui.version>4.10.3</swagger-ui.version>
 	</properties>
 	<dependencies>
 		<dependency>
