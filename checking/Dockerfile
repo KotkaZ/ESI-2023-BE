@@ -7,7 +7,7 @@ RUN mvn clean install package
 
 FROM eclipse-temurin:17-jdk-alpine
 # ARM processors
-# FROM --platform=linux/amd64 eclipse-temurin:17-jdk-alpine
+# FROM --platform=linux/arm64/v8 eclipse-temurin:17-jdk-focal
 
 WORKDIR /
 
