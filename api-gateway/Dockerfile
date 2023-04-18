@@ -1,10 +1,16 @@
-# FROM eclipse-temurin:17-jdk-alpine
+FROM maven:3.8.1-openjdk-17-slim AS builder
+WORKDIR /app
+COPY pom.xml ./
+COPY src ./src
 
+RUN mvn clean install package
+
+FROM eclipse-temurin:17-jdk-alpine
 # ARM processors
-FROM --platform=linux/amd64 eclipse-temurin:17-jdk-alpine
+# FROM --platform=linux/amd64 eclipse-temurin:17-jdk-alpine
 
-COPY target/*.jar app.jar
+WORKDIR /
 
-EXPOSE 8080
+COPY --from=builder /app/target/*.jar /app.jar
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
