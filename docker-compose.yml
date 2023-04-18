@@ -2,13 +2,13 @@ version: '3.8'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
-    container_name: zookeeper
+    container_name: esi-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   kafka:
     image: confluentinc/cp-kafka:7.3.2
-    container_name: broker
+    container_name: esi-broker
     ports:
       - "9092:9092"
     depends_on:
