@@ -1,36 +1,9 @@
 openapi: 3.0.3
 info:
-  title: City Transport API
-  version: 1.0.1
+  title: Bookings API
+  version: 0.0.1
   description: |
-    The City Transport API supports the simple city transport management system for officials.
-    It is developed under Cybernetica AS' Internship Programme 2022.
-    
-    The API includes the following capabilities and operations:
-    
-    __Manage Buses:__
-    
-    * List all busses
-    * Insert a new bus
-    * Update bus serve line.
-    * Delete bus with given ID.
-    
-    __Manage Bus Lines:__
-    
-    * List all bus stops
-    * Create a bus stop
-    * List all bus lines
-    * Create a bus line
-    
-    This API offers the following resource collections:
-    
-      * Bus - represents the physical bus with the license number and serving bus line.
-      * Bus line - describes a collection of bus stops with the given name. 
-      * Bus stop - describes a named location with coordinates where buses are intended to stop.
-  contact:
-    name: Cybernetica AS
-    url: https://cyber.ee/careers/internships/
-    email: internship@cyber.ee
+    The Booking API supports simple bookings actions.
 
 servers:
   - url: http://localhost:8080/
@@ -39,296 +12,35 @@ externalDocs:
   url: https://swagger.io/specification/
   description: Find more information about OAS3.0 standard.
 tags:
-  - name: BusMangagment
-    description: API containing information about city busses
-  - name: LineMangagment
-    description: API containing information about city transport lines
+  - name: Booking
+    description: API containing information about bookings
 paths:
-  /buses:
+  /bookings:
     get:
-      operationId: readBuses
+      operationId: getBookings
       tags:
-        - BusMangagment
-      summary: Query a list of buses.
-      description: Collects all the buses in databases and returnes them as a list.
+        - Bookings
+      summary: Query a list of bookings.
+      description: Collects all the bookings in databases and returns them as a list.
       responses:
         '200':
-          description: Returned a list of buses.
+          description: Returned a list of bookings.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Bus'
-    post:
-      operationId: createBus
-      tags:
-        - BusMangagment
-      summary: Insert a new bus.
-      description: Creates a new bus bus object and save it into database.
-      requestBody:
-        description: Information about new bus.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Bus"
-      responses:
-        '200':
-          description: Returned a new bus object with fullfilled id field from database.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Bus'
-        '400':
-          description: Invalid request body content.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-  /buses/{busId}:
-    put:
-      operationId: updateBus
-      tags:
-        - BusMangagment
-      summary: Updates bus information.
-      description: Searches for a specific bus with given id and updates its data.
-      parameters:
-        - $ref: '#/components/parameters/BusIdParam'
-      requestBody:
-        required: true
-        description: Information about bus.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Bus"
-      responses:
-        '200':
-          description: Returned a updated bus object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Bus'
-        '404':
-          description: Bus with given ID not found error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '400':
-          description: Invalid request body content.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-    delete:
-      operationId: deleteBus
-      tags:
-        - BusMangagment
-      summary: Deletes a bus.
-      description: Searches for a specific bus with given id and deletes it from database.
-      parameters:
-        - $ref: '#/components/parameters/BusIdParam'
-      responses:
-        '204':
-          description: Bus with given ID deleted successfully.
-        '404':
-          description: Bus with given ID not found error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-  /bus-stops:
-    get:
-      operationId: readBusStops
-      tags:
-        - LineMangagment
-      summary: Gets all bus stops with given filters.
-      description: Queries all bus stops with given optional name and limit filters.
-      parameters:
-        - $ref: '#/components/parameters/MaxResultsParam'
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Optional parameter to filter bus stops by partial name.
-      responses:
-        '200':
-          description: Returned a list of bus stops which fullfill query params.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BusStop'
-    post:
-      operationId: createBusStop
-      tags:
-        - LineMangagment
-      summary: Create a bus stop
-      description: Creates a bus stop with given name and location and stores it in the database.
-      requestBody:
-        description: A new bus stop object with name and coordanites.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BusStop"
-      responses:
-        '200':
-          description: Returned bus stop object with fullfilled id field from database.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BusStop'
-  /bus-lines:
-    get:
-      operationId: readBusLines
-      tags:
-        - LineMangagment
-      summary: Get all bus lines with given filters.
-      description: Queries all bus lines with given optional name, busStopId and limit filters.
-      parameters:
-        - $ref: '#/components/parameters/MaxResultsParam'
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Optional parameter to filter bus lines by partial name.
-        - in: query
-          name: busStopId
-          schema:
-            type: integer
-          description: Optional parameter to filter bus lines by bus stops.
-      responses:
-        '200':
-          description: Returned a list of bus stops which fullfill query params.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BusLine'
-    post:
-      operationId: createBusLine
-      tags:
-        - LineMangagment
-      summary: Create a bus line
-      description: Creates a bus line with given name and bus stops.
-      requestBody:
-        description: A new bus line object with name and list of bus stops.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BusLine"
-      responses:
-        '200':
-          description: Returned a bus line dto with fullfilled id field
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BusLine'
-        '400':
-          description: One of the given bus stops do not exist.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                  $ref: '#/components/schemas/Booking'
 components:
-  parameters:
-    MaxResultsParam:
-      in: query
-      name: maxResults
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-        default: 20
-      description: The numbers of items to return.
-    BusIdParam:
-      name: busId
-      in: path
-      description: Common ID parameter of bus.
-      required: true
-      schema:
-        type: integer
   schemas:
-    Bus:
+    Booking:
       type: object
-      required:
-        - licenceNumber
       properties:
         id:
           type: integer
           description: Id given by database, undefined in request body.
           example: 0
-        licenceNumber:
+        startedAt:
           type: string
-          description: Licence plate number
-          example: "460TNP"
-        busLineId:
-          type: integer
-          description: Bus line which bus is serving.
-          example: 0
-    BusLine:
-      type: object
-      required:
-        - name
-        - busStopIds
-      properties:
-        id:
-          type: integer
-          description: Id given by database, undefined in request body.
-          example: 0
-        name:
-          type: string
-          description: Bus line name
-          example: "Kummeli - Ringtee"
-        busStopIds:
-          type: array
-          description: Ordered bus stop ids from line start to finish
-          items:
-            type: integer
-
-    BusStop:
-      type: object
-      required:
-        - name
-        - latitude
-        - longitude
-      properties:
-        id:
-          type: integer
-          description: Id given by database, undefined in request body.
-          example: 0
-        name:
-          type: string
-          description: Name of bus stop
-          example: "Vene"
-        latitude:
-          type: string
-          description: Bus stop location latitude
-          example: "58.385787"
-        longitude:
-          type: string
-          description: Bus stop location latitude
-          example: "26.726408"
-
-    ErrorMessage:
-      type: object
-      properties:
-        title:
-          type: string
-          description: A short summary about the error type.
-          example: "Service Unavailable"
-        statusCode:
-          type: integer
-          format: int32
-          description: The HTTP status code generated by the origin server for this occurrence of the problem.
-          minimum: 100
-          maximum: 600
-          exclusiveMaximum: true
-          example: 418
-        detail:
-          type: string
-          description: A human readable explanation specific to this occurrence of the problem.
-          example: "Connection to database timed out"
+          format: date-time
+          description: Booking start date time

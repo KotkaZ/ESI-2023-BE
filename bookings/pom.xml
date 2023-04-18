@@ -164,7 +164,36 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
 							<generatorName>spring</generatorName>
-							<output>${project.basedir}/src/main/java/gen</output>
+							<output>${project.basedir}/gen-src</output>
+
+							<apiPackage>com.esi.bookings</apiPackage>
+							<modelPackage>com.esi.bookings.models</modelPackage>
+							<modelNameSuffix>Dto</modelNameSuffix>
+
+							<generateApiTests>false</generateApiTests>
+							<generateApiDocumentation>false</generateApiDocumentation>
+
+							<generateModelTests>false</generateModelTests>
+							<generateModelDocumentation>false</generateModelDocumentation>
+
+							<verbose>false</verbose>
+							<skipOverwrite>false</skipOverwrite>
+							<configOptions>
+								<dateLibrary>java8</dateLibrary>
+								<documentationProvider>none</documentationProvider>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<useOptional>true</useOptional>
+								<useSwaggerUI>false</useSwaggerUI>
+								<delegatePattern>false</delegatePattern>
+								<additionalModelTypeAnnotations>@lombok.Builder</additionalModelTypeAnnotations>
+								<interfaceOnly>true</interfaceOnly>
+								<useBeanValidation>true</useBeanValidation>
+								<performBeanValidation>true</performBeanValidation>
+								<useTags>true</useTags>
+								<openApiNullable>false</openApiNullable>
+								<bigDecimalAsString>true</bigDecimalAsString>
+								<title>Bookings API</title>
+							</configOptions>
 						</configuration>
 					</execution>
 				</executions>
@@ -176,25 +205,43 @@
 				<version>1.7</version>
 				<executions>
 					<execution>
+						<id>removeOpenApiOverhead</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 						<configuration>
 							<tasks>
-								<delete>
-									<fileset dir="${project.basedir}/src/main/java/gen/.openapi-generator" />
-									<fileset dir="${project.basedir}/src/main/java/gen/src/test" />
-									<!-- TODO: Update generator package naming. Use Delegation pattern? -->
-									<!--<fileset dir="${project.basedir}/src/main/java/gen/src/main/resources" /> -->
-									<!--<fileset dir="${project.basedir}/src/main/java/gen/src/main/java/org" /> -->
-								</delete>
-								<delete file="${project.basedir}/src/main/java/gen/.openapi-generator-ignore" />
-								<delete file="${project.basedir}/src/main/java/gen/README.md" />
+								<delete dir="${project.basedir}/gen-src/.openapi-generator" />
+								<delete file="${project.basedir}/gen-src/.openapi-generator-ignore" />
+								<delete file="${project.basedir}/gen-src/README.md" />
+								<delete file="${project.basedir}/gen-src/pom.xml" />
+							</tasks>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>cleanOpenApi</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<delete dir="${project.basedir}/gen-src" />
 							</tasks>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<generatedSourcesDirectory>${project.basedir}/gen-src/src/main/java</generatedSourcesDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
