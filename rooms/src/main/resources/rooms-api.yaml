@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Rooms API
+  version: 0.0.1
+  description: |
+    The Rooms API supports simple actions with rooms.
+
+servers:
+  - url: http://localhost:8080/
+    description: Local development server
+externalDocs:
+  url: https://swagger.io/specification/
+  description: Find more information about OAS3.0 standard.
+tags:
+  - name: Rooms
+    description: API containing information about bookings
+paths:
+  /rooms:
+    get:
+      operationId: getRooms
+      tags:
+        - Rooms
+      summary: Query a list of rooms.
+      description: Collects all the rooms in databases and returns them as a list.
+      responses:
+        '200':
+          description: Returned a list of rooms.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+components:
+  schemas:
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id given by database, undefined in request body.
+          example: 0
+        number:
+          type: integer
+          description: Simple room number
+        state:
+          type: string
+          enum:
+            - READY
+            - BOOKED
+            - CLEAN
+          description: A room state as enumeration

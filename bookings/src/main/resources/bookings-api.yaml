@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Bookings API
+  version: 0.0.1
+  description: |
+    The Booking API supports simple bookings actions.
+
+servers:
+  - url: http://localhost:8080/
+    description: Local development server
+externalDocs:
+  url: https://swagger.io/specification/
+  description: Find more information about OAS3.0 standard.
+tags:
+  - name: Booking
+    description: API containing information about bookings
+paths:
+  /bookings:
+    get:
+      operationId: getBookings
+      tags:
+        - Bookings
+      summary: Query a list of bookings.
+      description: Collects all the bookings in databases and returns them as a list.
+      responses:
+        '200':
+          description: Returned a list of bookings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+components:
+  schemas:
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id given by database, undefined in request body.
+          example: 0
+        startedAt:
+          type: string
+          format: date-time
+          description: Booking start date time
