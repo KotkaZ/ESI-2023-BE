@@ -6,7 +6,7 @@ info:
     The Rooms API supports simple actions with rooms.
 
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080/api/rooms
     description: Local development server
 externalDocs:
   url: https://swagger.io/specification/
@@ -36,17 +36,18 @@ components:
     Room:
       type: object
       properties:
-        id:
+        roomNumber:
           type: integer
-          description: Id given by database, undefined in request body.
+          description: Room number given by database.
           example: 0
-        number:
-          type: integer
-          description: Simple room number
-        state:
+          minimum: 0
+        description:
           type: string
-          enum:
-            - READY
-            - BOOKED
-            - CLEAN
-          description: A room state as enumeration
+          description: Room description
+        price:
+          type: string
+          description: Room price in high precision
+        guestsMaxNumber:
+          type: integer
+          description: Maximum number of guests in a room
+          minimum: 1

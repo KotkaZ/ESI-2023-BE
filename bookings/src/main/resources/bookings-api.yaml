@@ -6,7 +6,7 @@ info:
     The Booking API supports simple bookings actions.
 
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080/api/bookings
     description: Local development server
 externalDocs:
   url: https://swagger.io/specification/
