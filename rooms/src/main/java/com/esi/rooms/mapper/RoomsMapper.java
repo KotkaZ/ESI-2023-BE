@@ -5,7 +5,9 @@ import com.esi.rooms.model.Room;
 import com.esi.rooms.models.RoomDto;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Service;
 
+@Service
 @Mapper(componentModel = "spring")
 public interface RoomsMapper {
 
