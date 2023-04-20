@@ -160,7 +160,8 @@ components:
           type: string
           description: Room description
         price:
-          type: string
+          type: number
+          format: currency
           description: Room price in high precision
         guestsMaxNumber:
           type: integer
