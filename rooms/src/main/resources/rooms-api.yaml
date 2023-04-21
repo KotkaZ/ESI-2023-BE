@@ -13,9 +13,9 @@ externalDocs:
   description: Find more information about OAS3.0 standard.
 tags:
   - name: Rooms
-    description: API containing information about bookings
+    description: API containing information about rooms
 paths:
-  /rooms:
+  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
     get:
       operationId: getRooms
       tags:
@@ -31,6 +31,119 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Room'
+    post:
+      operationId: createRoom
+      tags:
+        - Rooms
+      summary: Create a room.
+      description: Creates a room with given parameters.
+      requestBody:
+        description: Room object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+      responses:
+        '201':
+          description: Room created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Room id
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+    get:
+      operationId: getRoomById
+      tags:
+        - Rooms
+      summary: Query a room by id.
+      description: Collects a room with given id.
+      responses:
+        '200':
+          description: Returned a room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: removeRoom
+      tags:
+        - Rooms
+      summary: Remove a room.
+      description: Removes a room with given id.
+      parameters:
+        - name: id
+          in: path
+          description: Room id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        '200':
+          description: Room removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+        operationId: editRoom
+        tags:
+            - Rooms
+        summary: Edit a room.
+        description: Edits a room with given id.
+        parameters:
+          - name: id
+            in: path
+            description: Room id
+            required: true
+            schema:
+                type: integer
+                minimum: 0
+        requestBody:
+            description: Room object that needs to be edited in the database.
+            required: true
+            content:
+              application/json:
+                  schema:
+                    $ref: '#/components/schemas/Room'
+        responses:
+            '200':
+              description: Room edited.
+            '404':
+              description: Room not found.
+              content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Error'
+            '400':
+              description: Invalid input.
+              content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Error'
 components:
   schemas:
     Room:
@@ -38,16 +151,27 @@ components:
       properties:
         roomNumber:
           type: integer
-          description: Room number given by database.
+          description: Room number.
           example: 0
           minimum: 0
         description:
           type: string
           description: Room description
         price:
-          type: string
+          type: number
+          format: currency
           description: Room price in high precision
         guestsMaxNumber:
           type: integer
           description: Maximum number of guests in a room
           minimum: 1
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+          minimum: 0
