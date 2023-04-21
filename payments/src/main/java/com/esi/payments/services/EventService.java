@@ -17,13 +17,13 @@ public class EventService {
 
     private final KafkaTemplate<String, PaymentEvent> kafkaTemplate;
 
-    public void publishBooking(PaymentEvent event){
+    public void publishPayment(PaymentEvent event){
         log.info("[KAFKA] Publishing event to paymentTopic: {} ", event.toString());
         kafkaTemplate.send("paymentTopic", event);
     }
 
     @KafkaListener(topics = "bookingTopic", groupId = "paymentsGroup" )
-    public void processChecking(BookingEvent event){
+    public void processBooking(BookingEvent event){
         log.info("[KAFKA] Log message - recieved from booking topic: {} ", event.toString());
     }
 }

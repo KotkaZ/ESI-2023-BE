@@ -16,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 public class EventService {
 
     @KafkaListener(topics = "bookingTopic", groupId = "notificationGroup")
-    public void processChecking(BookingEvent event){
+    public void processBooking(BookingEvent event){
         log.info("[KAFKA] Log message - recieved from booking topic: {} ", event.toString());
     }
 
     @KafkaListener(topics = "paymentTopic", groupId = "notificationGroup")
-    public void processChecking(PaymentEvent event){
+    public void processPayment(PaymentEvent event){
         log.info("[KAFKA] Log message - recieved from payment topic: {} ", event.toString());
     }
 }
