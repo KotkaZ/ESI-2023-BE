@@ -3,7 +3,7 @@ info:
   title: Checking API
   version: 0.0.1
   description: |
-    The Checking API example spec.
+    The Checking API supports simple actions with the cleaning process.
 
 servers:
   - url: http://localhost:8080/api/checking
@@ -15,13 +15,137 @@ tags:
   - name: Checking
     description: API containing information about checking
 paths:
-  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
-    get:
-      operationId: getExample
+  /{bookingId}/checkin:
+    parameters:
+      - name: bookingId
+        in: path
+        description: Booking id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    post:
+      operationId: checkinToRooms
       tags:
         - Checking
-      summary:  getExample summary
-      description: getExample description
+      summary: Create a checkin request.
+      description: Creates a checkin request with a certain booking Id
+      requestBody:
+        description: Checking object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checking'
       responses:
-        '200':
-          description: getExample returns 200.
+        '201':
+          description: Cleaning request created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{bookingId}/checkout:
+    parameters:
+      - name: bookingId
+        in: path
+        description: Booking id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    put:
+      operationId: checkoutFromRooms
+      tags:
+        - Checking
+      summary: Edit a checkin request.
+      description: Edits already made checkin request with a certain booking Id
+      requestBody:
+        description: Checking object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checking'
+      responses:
+        '201':
+          description: Cleaning request created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /{bookingId}/generateCode:
+    parameters:
+      - name: bookingId
+        in: path
+        description: Booking id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    put:
+      operationId: generateCode
+      tags:
+        - Checking
+      summary: Generate entry code for entry
+      description: Edits already made checkin request with an entry code
+      requestBody:
+        description: Checking object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checking'
+      responses:
+        '201':
+          description: Cleaning request created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Checking:
+      type: object
+      properties:
+        checkInId:
+          type: integer
+          description: Request ID.
+          example: 0
+          minimum: 0
+        bookingId:
+          type: integer
+          description: Booking id
+        roomId:
+          type: integer
+          description: Room id
+        checkInAt:
+          type: string
+          format: date-time
+          example: "2023-01-30T08:30:00Z"
+          description: date and time of the check-in
+        checkOutAt:
+          type: string
+          format: date-time
+          example: "2023-01-30T13:30:00Z"
+          description: date and time of the check-out
+        code:
+          type: string
+          description: Code for the entry to room(s)
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+          minimum: 0
