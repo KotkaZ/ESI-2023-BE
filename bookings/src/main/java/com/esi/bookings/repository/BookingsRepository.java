@@ -10,6 +10,6 @@ public interface BookingsRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByUserId(Integer userId);
 
-    boolean existsByRoomIdAndStartDateBeforeAndEndDateAfter(
-        Integer roomId, LocalDate startDate, LocalDate endDate);
+    boolean existsByStartDateBeforeAndEndDateAfter(
+        Integer roomId, LocalDate endDate, LocalDate startDate);
 }

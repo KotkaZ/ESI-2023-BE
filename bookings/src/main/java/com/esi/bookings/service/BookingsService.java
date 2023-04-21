@@ -32,7 +32,7 @@ public class BookingsService {
 
     public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
         return bookingsRepository
-            .existsByRoomIdAndStartDateBeforeAndEndDateAfter(roomId, startDate, endDate);
+            .existsByStartDateBeforeAndEndDateAfter(roomId, endDate, startDate);
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {
