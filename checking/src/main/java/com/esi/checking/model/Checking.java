@@ -1,8 +1,6 @@
 package com.esi.checking.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +11,14 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "support")
+@Table(name = "reception")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Checking {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer checkInId;
     private Integer bookingId;
     private Integer roomId;

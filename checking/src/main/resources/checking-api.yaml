@@ -39,7 +39,7 @@ paths:
               $ref: '#/components/schemas/Checking'
       responses:
         '201':
-          description: Cleaning request created.
+          description: Check-in completed.
         '400':
           description: Invalid input.
           content:
@@ -70,7 +70,7 @@ paths:
               $ref: '#/components/schemas/Checking'
       responses:
         '201':
-          description: Cleaning request created.
+          description: Check-out completed.
         '400':
           description: Invalid input.
           content:
@@ -102,7 +102,7 @@ paths:
               $ref: '#/components/schemas/Checking'
       responses:
         '201':
-          description: Cleaning request created.
+          description: Code generated.
         '400':
           description: Invalid input.
           content:

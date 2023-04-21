@@ -1,8 +1,6 @@
 package com.esi.support.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +16,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class Support {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer requestId;
     private Integer bookingId;
     private Integer assignedTo;
