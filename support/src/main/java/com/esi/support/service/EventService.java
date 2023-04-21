@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EventService {
 
-    @KafkaListener(topics = "checkingTopic", groupId = "checkingEventGroup" )
+    @KafkaListener(topics = "checkingTopic", groupId = "supportGroup")
     public void processChecking(CheckingEvent event){
-        log.info("Log message - recieved from checking topic: {} ", event.toString());
+        log.info("[KAFKA] Log message - recieved from checking topic: {} ", event.toString());
     }
 }

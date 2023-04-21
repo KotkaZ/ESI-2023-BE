@@ -22,8 +22,8 @@ public class EventService {
         kafkaTemplate.send("paymentTopic", paymentTopic);
     }
 
-    @KafkaListener(topics = "bookingTopic", groupId = "bookingEventGroup" )
+    @KafkaListener(topics = "bookingTopic", groupId = "paymentsGroup" )
     public void processChecking(BookingEvent bookingEvent){
-        log.info("Log message - recieved from booking topic: {} ", bookingEvent.toString());
+        log.info("[KAFKA] Log message - recieved from booking topic: {} ", bookingEvent.toString());
     }
 }

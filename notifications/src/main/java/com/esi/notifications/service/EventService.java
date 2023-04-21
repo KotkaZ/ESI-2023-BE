@@ -15,13 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EventService {
 
-    @KafkaListener(topics = "bookingTopic", groupId = "bookingEventGroup")
+    @KafkaListener(topics = "bookingTopic", groupId = "notificationGroup")
     public void processChecking(BookingEvent event){
-        log.info("Log message - recieved from booking topic: {} ", event.toString());
+        log.info("[KAFKA] Log message - recieved from booking topic: {} ", event.toString());
     }
 
-    @KafkaListener(topics = "paymentTopic", groupId = "paymentEventGroup")
+    @KafkaListener(topics = "paymentTopic", groupId = "notificationGroup")
     public void processChecking(PaymentEvent event){
-        log.info("Log message - recieved from payment topic: {} ", event.toString());
+        log.info("[KAFKA] Log message - recieved from payment topic: {} ", event.toString());
     }
 }
