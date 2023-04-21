@@ -1,4 +1,4 @@
-package com.esi.bookings.dto;
+package com.esi.payments.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -6,8 +6,6 @@ import jakarta.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-
-import com.esi.bookings.model.BookingStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,16 +15,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingCreated {
+public class BookingEvent {
 
     private Integer id;
 
     private Integer userId;
 
     private Integer roomId;
-
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
 
     private LocalDate startDate;
 

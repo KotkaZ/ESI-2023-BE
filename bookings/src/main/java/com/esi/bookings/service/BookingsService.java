@@ -4,7 +4,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.model.BookingStatus;
-import com.esi.bookings.mapper.BookingCreatedMapper;
+import com.esi.bookings.mapper.BookingEventMapper;
 import com.esi.bookings.repository.BookingsRepository;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class BookingsService {
 
     private final BookingsRepository bookingsRepository;
-    private final BookingCreatedMapper bookingCreatedMapper;
+    private final BookingEventMapper bookingEventMapper;
     @Autowired
     private final ProducerService producerService;
 
@@ -28,7 +28,7 @@ public class BookingsService {
 
         bookingsRepository.saveAndFlush(booking);
 
-        var topic = bookingCreatedMapper.mapToTopic(booking);
+        var topic = bookingEventMapper.mapToEvent(booking);
 
         producerService.publishBooking(topic);
     }

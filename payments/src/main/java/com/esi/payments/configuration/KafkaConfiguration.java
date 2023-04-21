@@ -13,4 +13,10 @@ public class KafkaConfiguration {
         return TopicBuilder.name("paymentTopic")
                 .build();
     }
+
+    @Bean
+    public NewTopic BookingTopicCreation(){
+        return TopicBuilder.name("bookingTopic")
+                .build();
+    }
 }

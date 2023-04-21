@@ -1,13 +1,13 @@
 package com.esi.bookings.mapper;
 
 import com.esi.bookings.model.Booking;
-import com.esi.bookings.dto.BookingCreated;
+import com.esi.bookings.dto.BookingEvent;
 
 import java.util.List;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface BookingCreatedMapper {
+public interface BookingEventMapper {
 
-    BookingCreated mapToTopic(Booking booking);
+    BookingEvent mapToEvent(Booking booking);
 }
