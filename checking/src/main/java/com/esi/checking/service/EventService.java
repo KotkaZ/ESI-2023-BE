@@ -24,6 +24,6 @@ public class EventService {
 
     @KafkaListener(topics = "bookingTopic", groupId = "checkingGroup")
     public void processBooking(BookingEvent event){
-        log.info("Log message - recieved from booking topic: {} ", event.toString());
+        log.info("[KAFKA] Log message - recieved from booking topic: {} ", event.toString());
     }
 }
