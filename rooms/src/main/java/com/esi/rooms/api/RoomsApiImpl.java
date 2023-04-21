@@ -5,7 +5,6 @@ import com.esi.rooms.RoomsApi;
 import com.esi.rooms.mapper.RoomsMapper;
 import com.esi.rooms.models.RoomDto;
 import com.esi.rooms.repository.RoomsRepository;
-
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +34,10 @@ public class RoomsApiImpl implements RoomsApi {
     public ResponseEntity<RoomDto> getRoomById(Integer id) {
         val room = roomsRepository.findById(id);
         return room
-        .map( r -> ResponseEntity.ok(
-            roomsMapper.entityToDto(room.get())
-        ))
-        .orElseThrow( () ->
+            .map(r -> ResponseEntity.ok(roomsMapper.entityToDto(r)))
+            .orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found")
-        );
+            );
     }
 
     @Override
@@ -61,7 +58,7 @@ public class RoomsApiImpl implements RoomsApi {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid input");
         }
         val room = roomsRepository.findById(roomDto.getRoomNumber())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
 
         room.setDescription(roomDto.getDescription());
         room.setGuestsMaxNumber(roomDto.getGuestsMaxNumber());
