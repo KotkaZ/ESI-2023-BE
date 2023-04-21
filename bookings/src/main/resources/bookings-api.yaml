@@ -120,13 +120,28 @@ paths:
         - Booking
       summary: Get the availability of a certain room
       description: Get the availability of a certain room by roomId
+      parameters:
+        - in: query
+          name: startDate
+          required: true
+          description: Possible start date for booking
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: endDate
+          required: true
+          description: Possible end date for booking
+          schema:
+            type: string
+            format: date
       responses:
         '200':
           description: Returned a list of bookings.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RoomAvailability'
+                type: boolean
 
 components:
   schemas:
@@ -186,21 +201,6 @@ components:
           example: 1
       allOf:
         - $ref: '#/components/schemas/BookingCreate'
-    RoomAvailability:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Room id.
-          example: 1
-        startDate:
-          type: string
-          format: date
-          description: Booking start date time
-        endDate:
-          type: string
-          format: date
-          description: Booking end date time
 
     Error:
       type: object

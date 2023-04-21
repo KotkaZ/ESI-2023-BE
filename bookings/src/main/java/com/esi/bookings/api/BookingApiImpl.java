@@ -4,8 +4,8 @@ import com.esi.bookings.BookingApi;
 import com.esi.bookings.mapper.BookingsMapper;
 import com.esi.bookings.models.BookingCreateDto;
 import com.esi.bookings.models.BookingDto;
-import com.esi.bookings.models.RoomAvailabilityDto;
 import com.esi.bookings.service.BookingsService;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -47,8 +47,10 @@ public class BookingApiImpl implements BookingApi {
     }
 
     @Override
-    public ResponseEntity<RoomAvailabilityDto> getRoomAvailability(Integer roomId) {
-        val booking = bookingsService.getBookingByRoomId(roomId);
-        return ResponseEntity.ok(bookingsMapper.entityToRoomAvailabilityDto(booking));
+    public ResponseEntity<Boolean> getRoomAvailability(Integer roomId, LocalDate startDate,
+                                                       LocalDate endDate) {
+        val isAvailable = bookingsService.checkAvailability(roomId, startDate, endDate);
+        return ResponseEntity.ok(isAvailable);
     }
+
 }
