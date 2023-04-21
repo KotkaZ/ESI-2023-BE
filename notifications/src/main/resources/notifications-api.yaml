@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Notifications API
+  version: 0.0.1
+  description: |
+    The Notifications API example spec.
+
+servers:
+  - url: http://localhost:8080/api/notifications
+    description: Local development server
+externalDocs:
+  url: https://swagger.io/specification/
+  description: Find more information about OAS3.0 standard.
+tags:
+  - name: Notifications
+    description: API containing information about notifications
+paths:
+  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
+    get:
+      operationId: getExample
+      tags:
+        - Notifications
+      summary:  getExample summary
+      description: getExample description
+      responses:
+        '200':
+          description: getExample returns 200.

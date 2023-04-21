@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Payments API
+  version: 0.0.1
+  description: |
+    The Payments API example spec.
+
+servers:
+  - url: http://localhost:8080/api/payments
+    description: Local development server
+externalDocs:
+  url: https://swagger.io/specification/
+  description: Find more information about OAS3.0 standard.
+tags:
+  - name: Payments
+    description: API containing information about payments
+paths:
+  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
+    get:
+      operationId: getExample
+      tags:
+        - Payments
+      summary:  getExample summary
+      description: getExample description
+      responses:
+        '200':
+          description: getExample returns 200.
