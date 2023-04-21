@@ -15,13 +15,108 @@ tags:
   - name: Payments
     description: API containing information about payments
 paths:
-  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
-    get:
-      operationId: getExample
+  /:
+    post:
+      operationId: createPayment
       tags:
         - Payments
-      summary:  getExample summary
-      description: getExample description
+      summary: Create a payment
+      description: Creates a payment with given parameters.
+      requestBody:
+        description: Payment object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+      responses:
+        '201':
+          description: Payment created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{id}:
+    patch:
+      operationId: updatePayment
+      tags:
+        - Payments
+      summary: Update the payment
+      description: Update the payment
+      parameters:
+        - name: id
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+      requestBody:
+        description: Payment object that needs to be edited in the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
       responses:
         '200':
-          description: getExample returns 200.
+          description: Payment edited.
+        '404':
+          description: Payment id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        paymentId:
+          type: integer
+          description: Request ID.
+          example: 0
+          minimum: 0
+        bookingId:
+          type: integer
+          description: Booking id
+          example: 0
+          minimum: 0
+        userId:
+          type: integer
+          description: User id
+          example: 0
+          minimum: 0
+        totalAmount:
+          type: number
+          format: currency
+          description: Total amount to pay
+        status:
+          type: string
+          description: status of the payment
+          enum: [ FAILED, SUCCEEDED, PENDING ]
+        changedAt:
+          type: string
+          format: date-time
+          example: "2023-01-30T13:30:00Z"
+          description: date and time of the last change
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+          minimum: 0
