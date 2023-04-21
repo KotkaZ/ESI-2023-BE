@@ -1,16 +1,11 @@
 package com.esi.bookings.api;
 
-import com.esi.bookings.BookingsApi;
-import com.esi.bookings.models.BookingDto;
-import java.util.List;
-import org.springframework.http.ResponseEntity;
+import com.esi.bookings.BookingApi;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class BookingApiImpl implements BookingsApi {
+@RequiredArgsConstructor
+public class BookingApiImpl implements BookingApi {
 
-    @Override
-    public ResponseEntity<List<BookingDto>> getBookings() {
-        return BookingsApi.super.getBookings();
-    }
 }

@@ -15,13 +15,21 @@ tags:
   - name: Booking
     description: API containing information about bookings
 paths:
-  /bookings:
+  /:
     get:
-      operationId: getBookings
+      operationId: getBookingsByUser
       tags:
-        - Bookings
-      summary: Query a list of bookings.
-      description: Collects all the bookings in databases and returns them as a list.
+        - Booking
+      summary: Retrieve all bookings of a user
+      description: Retrieve all bookings of a user by userId
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          description: Id of the user, who made the booking.
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '200':
           description: Returned a list of bookings.
@@ -31,16 +39,174 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Booking'
+    post:
+      operationId: createBooking
+      tags:
+        - Booking
+      summary: Create a booking.
+      description: Creates a booking with given parameters.
+      requestBody:
+        description: Booking object that needs to be added to the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreate'
+      responses:
+        '201':
+          description: Booking created.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Booking id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      operationId: getBookingById
+      tags:
+        - Booking
+      summary: Retrieve a booking by id
+      description: Retrieve a booking by id
+      responses:
+        '200':
+          description: Returned a booking.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '404':
+          description: Booking not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      operationId: cancelBooking
+      tags:
+          - Booking
+      summary: Cancel a booking.
+      description: Cancel a booking with given id.
+      responses:
+        '200':
+          description: Booking canceled.
+  /rooms/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Room id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      operationId: getRoomAvailability
+      tags:
+        - Booking
+      summary: Get the availability of a certain room
+      description: Get the availability of a certain room by roomId
+      responses:
+        '200':
+          description: Returned a list of bookings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                      type: boolean
+                      description: Room availability
+
 components:
   schemas:
-    Booking:
+    BookingCreate:
       type: object
       properties:
         id:
           type: integer
-          description: Id given by database, undefined in request body.
+          description: Booking id.
           example: 0
-        startedAt:
+        userId:
+          type: integer
+          description: Id of the user, who made the booking.
+          example: 0
+        roomId:
+          type: integer
+          description: Id of the room, which was booked.
+          example: 0
+        status:
           type: string
-          format: date-time
+          description: Booking status.
+          enum: [ CREATED, BOOKED, CANCELLED ]
+        startDate:
+          type: string
+          format: date
           description: Booking start date time
+        endDate:
+          type: string
+          format: date
+          description: Booking end date time
+        bookDate:
+          type: string
+          format: date
+          description: Booking date time
+        price:
+          type: number
+          format: currency
+          description: Booking price in high precision
+    Booking:
+      allOf:
+        - $ref: '#/components/schemas/BookingCreate'
+        - type: object
+          properties:
+            checkinId:
+              type: integer
+              description: Related id in the check-in service db.
+              example: 0
+            paymentId:
+              type: integer
+              description: Related id in the check-in service db.
+              example: 0
+            modifiedAt:
+              type: string
+              format: date-time
+              description: Last modification timestamp
+            modifiedBy:
+              type: integer
+              description: Id of the user.
+              example: 1
+    RoomAvailability:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Room id.
+          example: 1
+        startDate:
+          type: string
+          format: date
+          description: Booking start date time
+        endDate:
+          type: string
+          format: date
+          description: Booking end date time
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+          minimum: 0
