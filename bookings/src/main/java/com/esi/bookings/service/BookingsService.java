@@ -29,6 +29,11 @@ public class BookingsService {
             .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Booking not found"));
     }
 
+    public Booking getBookingByRoomId(Integer roomId) {
+        return bookingsRepository.findByRoomId(roomId)
+            .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Booking not found"));
+    }
+
     public List<Booking> getBookingsByUserId(Integer userId) {
         return bookingsRepository.findAllByUserId(userId);
     }

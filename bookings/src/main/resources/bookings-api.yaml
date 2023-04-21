@@ -105,9 +105,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /rooms/{id}:
+  /rooms/{roomId}:
     parameters:
-      - name: id
+      - name: roomId
         in: path
         description: Room id
         required: true

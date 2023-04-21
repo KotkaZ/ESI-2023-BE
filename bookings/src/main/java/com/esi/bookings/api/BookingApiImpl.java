@@ -47,8 +47,8 @@ public class BookingApiImpl implements BookingApi {
     }
 
     @Override
-    public ResponseEntity<RoomAvailabilityDto> getRoomAvailability(Integer id) {
-        val booking = bookingsService.getBookingById(id);
+    public ResponseEntity<RoomAvailabilityDto> getRoomAvailability(Integer roomId) {
+        val booking = bookingsService.getBookingByRoomId(roomId);
         return ResponseEntity.ok(bookingsMapper.entityToRoomAvailabilityDto(booking));
     }
 }
