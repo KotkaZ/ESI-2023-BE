@@ -11,32 +11,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingEvent {
+public class PaymentEvent {
 
-    private Integer id;
+    private Integer Id;
+
+    private Integer bookingId;
 
     private Integer userId;
 
-    private Integer roomId;
+    private float price;
 
-    private LocalDate startDate;
+    private float totalAmount;
 
-    private LocalDate endDate;
+    private LocalDate checkInAt;
 
-    private LocalDate bookDate;
+    private LocalDate changedAt;
 
-    private BigDecimal price;
-
-    private Integer checkinId;
-
-    private Integer paymentId;
-
-    private OffsetDateTime modifiedAt;
-
-    private Integer modifiedBy;
 }
 

@@ -18,18 +18,18 @@ public class EventService {
 
     private final KafkaTemplate<String, BookingEvent> kafkaTemplate;
     
-    public void publishBooking(BookingEvent booking){
-        log.info("[KAFKA] Publishing booking to bookingCreatedTopic: {} ", booking.toString());
-        kafkaTemplate.send("bookingTopic", booking);
+    public void publishBooking(BookingEvent event){
+        log.info("[KAFKA] Publishing booking to bookingCreatedTopic: {} ", event.toString());
+        kafkaTemplate.send("bookingTopic", event);
     }
 
     @KafkaListener(topics = "paymentTopic", groupId = "bookingGroup" )
-    public void processPayment(PaymentEvent paymentEvent){
-        log.info("[KAFKA] Log message - recieved from payment topic: {} ", paymentEvent.toString());
+    public void processPayment(PaymentEvent event){
+        log.info("[KAFKA] Log message - recieved from payment topic: {} ", event.toString());
     }
 
     @KafkaListener(topics = "checkingTopic", groupId = "bookingGroup" )
-    public void processChecking(CheckingEvent checkingDto){
-        log.info("[KAFKA] Log message - recieved from checking topic: {} ", checkingDto.toString());
+    public void processChecking(CheckingEvent event){
+        log.info("[KAFKA] Log message - recieved from checking topic: {} ", event.toString());
     }
 }
