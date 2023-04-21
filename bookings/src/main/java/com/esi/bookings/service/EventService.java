@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProducerService {
+public class EventService {
 
     private final KafkaTemplate<String, BookingEvent> kafkaTemplate;
     
@@ -23,13 +23,13 @@ public class ProducerService {
         kafkaTemplate.send("bookingTopic", booking);
     }
 
-    @KafkaListener(topics = "paymentTopic", groupId = "paymentEventGroup" )
+    @KafkaListener(topics = "paymentTopic", groupId = "bookingGroup" )
     public void processPayment(PaymentEvent paymentEvent){
-        log.info("Log message - recieved from payment topic: {} ", paymentEvent.toString());
+        log.info("[KAFKA] Log message - recieved from payment topic: {} ", paymentEvent.toString());
     }
 
-    @KafkaListener(topics = "checkingTopic", groupId = "checkingEventGroup" )
+    @KafkaListener(topics = "checkingTopic", groupId = "bookingGroup" )
     public void processChecking(CheckingEvent checkingDto){
-        log.info("Log message - recieved from checking topic: {} ", checkingDto.toString());
+        log.info("[KAFKA] Log message - recieved from checking topic: {} ", checkingDto.toString());
     }
 }

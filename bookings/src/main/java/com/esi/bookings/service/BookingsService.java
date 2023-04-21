@@ -21,7 +21,7 @@ public class BookingsService {
     private final BookingsRepository bookingsRepository;
     private final BookingEventMapper bookingEventMapper;
     @Autowired
-    private final ProducerService producerService;
+    private final EventService eventService;
 
     public void createBooking(Booking booking) {
         // TODO: 21/04/2023 What kind of validation? Manual? Bean?
@@ -30,7 +30,7 @@ public class BookingsService {
 
         var topic = bookingEventMapper.mapToEvent(booking);
 
-        producerService.publishBooking(topic);
+        eventService.publishBooking(topic);
     }
 
     public Booking getBookingById(Integer id) {
