@@ -120,11 +120,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  available:
-                      type: boolean
-                      description: Room availability
+                $ref: '#/components/schemas/RoomAvailability'
 
 components:
   schemas:
@@ -164,26 +160,26 @@ components:
           format: currency
           description: Booking price in high precision
     Booking:
+      type: object
+      properties:
+        checkinId:
+          type: integer
+          description: Related id in the check-in service db.
+          example: 0
+        paymentId:
+          type: integer
+          description: Related id in the check-in service db.
+          example: 0
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Last modification timestamp
+        modifiedBy:
+          type: integer
+          description: Id of the user.
+          example: 1
       allOf:
         - $ref: '#/components/schemas/BookingCreate'
-        - type: object
-          properties:
-            checkinId:
-              type: integer
-              description: Related id in the check-in service db.
-              example: 0
-            paymentId:
-              type: integer
-              description: Related id in the check-in service db.
-              example: 0
-            modifiedAt:
-              type: string
-              format: date-time
-              description: Last modification timestamp
-            modifiedBy:
-              type: integer
-              description: Id of the user.
-              example: 1
     RoomAvailability:
       type: object
       properties:
