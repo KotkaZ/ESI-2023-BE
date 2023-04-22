@@ -6,6 +6,7 @@ import com.esi.bookings.model.Booking;
 import com.esi.bookings.model.BookingStatus;
 import com.esi.bookings.mapper.BookingEventMapper;
 import com.esi.bookings.repository.BookingsRepository;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,9 @@ public class BookingsService {
             .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Booking not found"));
     }
 
-    public Booking getBookingByRoomId(Integer roomId) {
-        return bookingsRepository.findByRoomId(roomId)
-            .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Booking not found"));
+    public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
+        return bookingsRepository
+            .existsByStartDateBeforeAndEndDateAfter(roomId, endDate, startDate);
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {
