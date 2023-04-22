@@ -20,44 +20,69 @@ paths:
       operationId: getCleaningRequests
       tags:
         - Support
-      summary: Query all requests for cleaning
-      description: Collects all dirty and unassigned requests for cleaning and returns them as a list.
+      summary: Query all rooms that have requests for cleaning.
+      description: Query all rooms that have requests for cleaning.
       responses:
         '200':
-          description: Returned a list of cleaning requests.
+          description: Returned a list of room numbers (ids) with cleaning requests ids.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Support'
+                  $ref: '#/components/schemas/DirtyEntity'
+#  /{bookingId}/create:
+#    parameters:
+#      - name: bookingId
+#        in: path
+#        description: Booking id
+#        required: true
+#        schema:
+#          type: integer
+#          minimum: 1
+#    post:
+#      operationId: createCleaningRequest
+#      tags:
+#        - Support
+#      summary: Creates a cleaning request for a booking.
+#      description: Creates a cleaning request for a booking.
+#      requestBody:
+#        description: Cleaning request DTO to create cleaning request.
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CleaningRequestCreate'
+#      responses:
+#        '201':
+#          description: Cleaning request created.
+#        '404':
+#          description: Booking not found.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+
   /{id}/start:
     parameters:
       - name: id
         in: path
-        description: Room id
+        description: Cleaning request id
         required: true
         schema:
           type: integer
           minimum: 1
-    post:
-      operationId: createCleaningRequest
+    put:
+      operationId: startCleaningRequest
       tags:
         - Support
-      summary: Create a cleaning request.
-      description: Creates a cleaning request with a certain room Id
-      requestBody:
-        description: Checking object that needs to be added to the database.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Support'
+      summary: Marks cleaning request as started.
+      description: Marks cleaning request as started.
       responses:
         '201':
-          description: Cleaning request created.
-        '400':
-          description: Invalid input.
+          description: Cleaning request marked as started.
+        '404':
+          description: Cleaning request not found.
           content:
             application/json:
               schema:
@@ -66,7 +91,7 @@ paths:
     parameters:
       - name: id
         in: path
-        description: Room id
+        description: Cleaning request id
         required: true
         schema:
           type: integer
@@ -75,20 +100,13 @@ paths:
       operationId: endCleaningRequest
       tags:
         - Support
-      summary: Finish a cleaning request.
-      description: Finishes th cleaning request with a certain room Id
-      requestBody:
-        description: Checking object that needs to be edited to the database.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Support'
+      summary: Marks cleaning request as ended.
+      description: Marks cleaning request as ended.
       responses:
         '201':
-          description: Cleaning request finished.
-        '400':
-          description: Invalid input.
+          description: Cleaning request marked as ended.
+        '404':
+          description: Cleaning request not found.
           content:
             application/json:
               schema:
@@ -96,30 +114,24 @@ paths:
 
 components:
   schemas:
-    Support:
+    DirtyEntity:
       type: object
       properties:
-        requestId:
+        cleaningRequestId:
           type: integer
-          description: Request ID.
-          example: 0
-          minimum: 0
-        bookingId:
+          description: Cleaning request id
+          example: 1
+        roomId:
           type: integer
-          description: Booking id
-        assignedTo:
-          type: integer
-          description: ID of the person assigned to the cleaning task
-        requestedAt:
-          type: string
-          format: date-time
-          example: "2023-01-30T08:30:00Z"
-          description: date and time of the request of cleaning
-        cleanedAt:
-          type: string
-          format: date-time
-          example: "2023-01-30T13:30:00Z"
-          description: date and time of the end of cleaning
+          description: Room id
+          example: 123
+    CleaningRequestCreate:
+        type: object
+        properties:
+          bookingId:
+            type: integer
+            description: Booking id
+            example: 1
     Error:
       type: object
       properties:
