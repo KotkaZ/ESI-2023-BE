@@ -2,16 +2,15 @@ package com.esi.bookings.service;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import com.esi.bookings.mapper.BookingsMapper;
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.model.BookingStatus;
-import com.esi.bookings.mapper.BookingEventMapper;
 import com.esi.bookings.repository.BookingsRepository;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,8 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class BookingsService {
 
     private final BookingsRepository bookingsRepository;
-    private final BookingEventMapper bookingEventMapper;
-    @Autowired
+    private final BookingsMapper bookingsMapper;
+
     private final EventService eventService;
 
     public void createBooking(Booking booking) {
@@ -29,7 +28,7 @@ public class BookingsService {
 
         bookingsRepository.saveAndFlush(booking);
 
-        var topic = bookingEventMapper.mapToEvent(booking);
+        var topic = bookingsMapper.mapToEvent(booking);
 
         eventService.publishBooking(topic);
     }
@@ -41,7 +40,7 @@ public class BookingsService {
 
     public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
         return bookingsRepository
-            .existsByStartDateBeforeAndEndDateAfter(roomId, endDate, startDate);
+            .existsBookingInSpecificTimeRange(roomId, endDate, startDate);
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {

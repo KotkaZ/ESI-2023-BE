@@ -148,10 +148,6 @@ components:
     BookingCreate:
       type: object
       properties:
-        id:
-          type: integer
-          description: Booking id.
-          example: 0
         userId:
           type: integer
           description: Id of the user, who made the booking.
@@ -164,6 +160,7 @@ components:
           type: string
           description: Booking status.
           enum: [ CREATED, BOOKED, CANCELLED ]
+          example: CREATED
         startDate:
           type: string
           format: date
@@ -183,6 +180,10 @@ components:
     Booking:
       type: object
       properties:
+        id:
+          type: integer
+          description: Booking id.
+          example: 0
         checkinId:
           type: integer
           description: Related id in the check-in service db.
