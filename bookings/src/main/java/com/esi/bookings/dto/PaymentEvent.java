@@ -1,16 +1,12 @@
 package com.esi.bookings.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -24,9 +20,9 @@ public class PaymentEvent {
 
     private Integer userId;
 
-    private float price;
+    private BigDecimal price;
 
-    private float totalAmount;
+    private BigDecimal totalAmount;
 
     private LocalDate checkInAt;
 

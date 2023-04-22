@@ -15,13 +15,130 @@ tags:
   - name: Support
     description: API containing information about support services
 paths:
-  /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
+  /dirty:
     get:
-      operationId: getExample
+      operationId: getCleaningRequests
       tags:
         - Support
-      summary:  getExample summary
-      description: getExample description
+      summary: Query all rooms that have requests for cleaning.
+      description: Query all rooms that have requests for cleaning.
       responses:
         '200':
-          description: getExample returns 200.
+          description: Returned a list of room numbers (ids) with cleaning requests ids.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DirtyEntity'
+#  /{bookingId}/create:
+#    parameters:
+#      - name: bookingId
+#        in: path
+#        description: Booking id
+#        required: true
+#        schema:
+#          type: integer
+#          minimum: 1
+#    post:
+#      operationId: createCleaningRequest
+#      tags:
+#        - Support
+#      summary: Creates a cleaning request for a booking.
+#      description: Creates a cleaning request for a booking.
+#      requestBody:
+#        description: Cleaning request DTO to create cleaning request.
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CleaningRequestCreate'
+#      responses:
+#        '201':
+#          description: Cleaning request created.
+#        '404':
+#          description: Booking not found.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+
+  /{id}/start:
+    parameters:
+      - name: id
+        in: path
+        description: Cleaning request id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    put:
+      operationId: startCleaningRequest
+      tags:
+        - Support
+      summary: Marks cleaning request as started.
+      description: Marks cleaning request as started.
+      responses:
+        '201':
+          description: Cleaning request marked as started.
+        '404':
+          description: Cleaning request not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{id}/end:
+    parameters:
+      - name: id
+        in: path
+        description: Cleaning request id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    put:
+      operationId: endCleaningRequest
+      tags:
+        - Support
+      summary: Marks cleaning request as ended.
+      description: Marks cleaning request as ended.
+      responses:
+        '201':
+          description: Cleaning request marked as ended.
+        '404':
+          description: Cleaning request not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    DirtyEntity:
+      type: object
+      properties:
+        cleaningRequestId:
+          type: integer
+          description: Cleaning request id
+          example: 1
+        roomId:
+          type: integer
+          description: Room id
+          example: 123
+    CleaningRequestCreate:
+        type: object
+        properties:
+          bookingId:
+            type: integer
+            description: Booking id
+            example: 1
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+          minimum: 0
