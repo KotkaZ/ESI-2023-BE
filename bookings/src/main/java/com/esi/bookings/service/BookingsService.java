@@ -2,6 +2,7 @@ package com.esi.bookings.service;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import com.esi.bookings.mapper.BookingsMapper;
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.model.BookingStatus;
 import com.esi.bookings.repository.BookingsRepository;
@@ -18,11 +19,18 @@ import org.springframework.web.server.ResponseStatusException;
 public class BookingsService {
 
     private final BookingsRepository bookingsRepository;
+    private final BookingsMapper bookingsMapper;
+
+    private final EventService eventService;
 
     public void createBooking(Booking booking) {
         // TODO: 21/04/2023 What kind of validation? Manual? Bean?
 
         bookingsRepository.saveAndFlush(booking);
+
+        var topic = bookingsMapper.mapToEvent(booking);
+
+        eventService.publishBooking(topic);
     }
 
     public Booking getBookingById(Integer id) {
@@ -32,7 +40,7 @@ public class BookingsService {
 
     public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
         return bookingsRepository
-            .existsByStartDateBeforeAndEndDateAfter(roomId, endDate, startDate);
+            .existsBookingInSpecificTimeRange(roomId, endDate, startDate);
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {

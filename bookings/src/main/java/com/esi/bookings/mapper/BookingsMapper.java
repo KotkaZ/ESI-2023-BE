@@ -1,5 +1,6 @@
 package com.esi.bookings.mapper;
 
+import com.esi.bookings.dto.BookingEvent;
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.models.BookingCreateDto;
 import com.esi.bookings.models.BookingDto;
@@ -18,5 +19,7 @@ public interface BookingsMapper {
     List<Booking> dtoListToEntities(List<BookingDto> bookingDtoList);
 
     Booking bookingCreateDtoToEntity(BookingCreateDto bookingCreateDto);
+
+    BookingEvent mapToEvent(Booking booking);
 
 }
