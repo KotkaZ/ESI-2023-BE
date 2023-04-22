@@ -121,6 +121,12 @@
 			<artifactId>mapstruct-processor</artifactId>
 			<version>1.5.4.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.esi</groupId>
+			<artifactId>events</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -1,9 +1,9 @@
 package com.esi.bookings.mapper;
 
-import com.esi.bookings.dto.BookingEvent;
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.models.BookingCreateDto;
 import com.esi.bookings.models.BookingDto;
+import com.esi.events.BookingEvent;
 import java.util.List;
 import org.mapstruct.Mapper;
 

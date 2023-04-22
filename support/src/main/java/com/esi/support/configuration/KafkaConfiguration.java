@@ -1,5 +1,7 @@
 package com.esi.support.configuration;
 
+import static com.esi.constants.Topics.CHECKING_TOPIC;
+
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +11,7 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfiguration {
 
     @Bean
-    public NewTopic CheckingTopicCreation(){
-        return TopicBuilder.name("checkingTopic")
-                .build();
+    public NewTopic CheckingTopicCreation() {
+        return TopicBuilder.name(CHECKING_TOPIC).build();
     }
 }

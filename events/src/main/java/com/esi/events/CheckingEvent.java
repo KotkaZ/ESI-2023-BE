@@ -1,32 +1,26 @@
-package com.esi.notifications.dto;
+package com.esi.events;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentEvent {
+public class CheckingEvent {
 
     private Integer Id;
 
     private Integer bookingId;
 
-    private Integer userId;
-
-    private BigDecimal price;
-
-    private BigDecimal totalAmount;
+    private Integer roomId;
 
     private LocalDate checkInAt;
 
-    private LocalDate changedAt;
+    private LocalDate checkOutAt;
 
 }
 
