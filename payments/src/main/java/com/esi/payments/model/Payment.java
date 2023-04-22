@@ -21,6 +21,8 @@ public class Payment {
     private Integer paymentId;
     private Integer bookingId;
     private Integer userId;
+
+    private BigDecimal price;
     private BigDecimal totalAmount;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;

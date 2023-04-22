@@ -15,36 +15,14 @@ tags:
   - name: Payments
     description: API containing information about payments
 paths:
-  /:
-    post:
-      operationId: createPayment
-      tags:
-        - Payments
-      summary: Create a payment
-      description: Creates a payment with given parameters.
-      requestBody:
-        description: Payment object that needs to be added to the database.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Payment'
-      responses:
-        '201':
-          description: Payment created.
-        '400':
-          description: Invalid input.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /{id}:
+
+  /{id}/pay:
     patch:
-      operationId: updatePayment
+      operationId: payPayment
       tags:
         - Payments
-      summary: Update the payment
-      description: Update the payment
+      summary: Pay the payment
+      description: Pay the payment
       parameters:
         - name: id
           in: path
@@ -52,25 +30,18 @@ paths:
           required: true
           schema:
             type: integer
-            minimum: 0
-      requestBody:
-        description: Payment object that needs to be edited in the database.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Payment'
+            minimum: 1
       responses:
         '200':
-          description: Payment edited.
+          description: Payment was paid.
         '404':
           description: Payment id not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '400':
-          description: Invalid input.
+        '406':
+          description: Payment was unsuccessful.
           content:
             application/json:
               schema:
@@ -78,38 +49,6 @@ paths:
 
 components:
   schemas:
-    Payment:
-      type: object
-      properties:
-        paymentId:
-          type: integer
-          description: Request ID.
-          example: 0
-          minimum: 0
-        bookingId:
-          type: integer
-          description: Booking id
-          example: 0
-          minimum: 0
-        userId:
-          type: integer
-          description: User id
-          example: 0
-          minimum: 0
-        totalAmount:
-          type: number
-          format: currency
-          description: Total amount to pay
-        status:
-          type: string
-          description: status of the payment
-          enum: [ FAILED, SUCCEEDED, PENDING ]
-        changedAt:
-          type: string
-          format: date-time
-          example: "2023-01-30T13:30:00Z"
-          description: date and time of the last change
-
     Error:
       type: object
       properties:
