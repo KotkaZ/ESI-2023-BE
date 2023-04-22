@@ -1,9 +1,9 @@
 package com.esi.bookings.mapper;
 
+import com.esi.bookings.dto.BookingEvent;
 import com.esi.bookings.model.Booking;
 import com.esi.bookings.models.BookingCreateDto;
 import com.esi.bookings.models.BookingDto;
-import com.esi.bookings.models.RoomAvailabilityDto;
 import java.util.List;
 import org.mapstruct.Mapper;
 
@@ -18,8 +18,8 @@ public interface BookingsMapper {
 
     List<Booking> dtoListToEntities(List<BookingDto> bookingDtoList);
 
-    RoomAvailabilityDto entityToRoomAvailabilityDto(Booking booking);
+    Booking bookingCreateDtoToEntity(BookingCreateDto bookingCreateDto);
 
-    Booking bookingCreateDtoToEntity (BookingCreateDto bookingCreateDto);
+    BookingEvent mapToEvent(Booking booking);
 
 }
