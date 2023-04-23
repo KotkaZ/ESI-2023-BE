@@ -1,5 +1,6 @@
 package com.esi.bookings.service;
 
+import com.esi.bookings.dto.CheckingEvent;
 import com.esi.bookings.mapper.BookingsMapper;
 import com.esi.bookings.model.BookingStatus;
 import com.esi.bookings.repository.BookingsRepository;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.esi.bookings.dto.BookingEvent;
 import com.esi.bookings.dto.PaymentEvent;
-import com.esi.bookings.dto.CheckingEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,5 +60,12 @@ public class EventService {
     @KafkaListener(topics = "checkingTopic", groupId = "bookingGroup" )
     public void processChecking(CheckingEvent event){
         log.info("[KAFKA] Log message - received from checking topic: {} ", event.toString());
+        var booking = repo.findById(event.getBookingId())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Booking not found"));
+
+        booking.setCheckinId(event.getId());
+        booking.setModifiedAt(OffsetDateTime.now());
+
+        repo.saveAndFlush(booking);
     }
 }
