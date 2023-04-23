@@ -34,6 +34,8 @@ public class BookingsService {
 
         checkIfRoomExists(booking.getRoomId());
 
+        booking.setModifiedAt(OffsetDateTime.now());
+
         bookingsRepository.saveAndFlush(booking);
 
         var topic = bookingsMapper.mapToEvent(booking);
