@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -19,7 +17,7 @@ import java.time.OffsetDateTime;
 public class Checking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer checkInId;
+    private Integer id;
     private Integer bookingId;
     private Integer roomId;
     private OffsetDateTime checkInAt;
