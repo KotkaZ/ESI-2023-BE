@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class PaymentEvent {
 
-    private Integer Id;
+    private Integer id;
 
     private Integer bookingId;
 
