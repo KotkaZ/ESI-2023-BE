@@ -1,5 +1,6 @@
 package com.esi.notifications.service;
 
+import com.esi.notifications.dto.BookingStatus;
 import com.esi.notifications.model.Notification;
 import com.esi.notifications.model.NotificationStatus;
 import com.esi.notifications.model.NotificationType;
@@ -40,6 +41,10 @@ public class EventService {
                 .status(status)
                 .changedAt(OffsetDateTime.now())
                 .build();
+        if(event.getStatus().equals(BookingStatus.BOOKED)) {
+            notification.setPaymentId(event.getPaymentId());
+        }
+
         repository.saveAndFlush(notification);
     }
 
