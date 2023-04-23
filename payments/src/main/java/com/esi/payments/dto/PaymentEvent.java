@@ -1,12 +1,13 @@
 package com.esi.payments.dto;
 
+import com.esi.payments.model.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Builder
 @Data
@@ -24,9 +25,9 @@ public class PaymentEvent {
 
     private BigDecimal totalAmount;
 
-    private LocalDate checkInAt;
+    private PaymentStatus status;
 
-    private LocalDate changedAt;
+    private OffsetDateTime changedAt;
 
 }
 

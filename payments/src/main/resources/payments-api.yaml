@@ -15,37 +15,46 @@ tags:
   - name: Payments
     description: API containing information about payments
 paths:
-
-  /{id}/pay:
-    patch:
-      operationId: payPayment
+  /test:
+    get:
+      operationId: test
       tags:
         - Payments
-      summary: Pay the payment
-      description: Pay the payment
-      parameters:
-        - name: id
-          in: path
-          description: Payment id
-          required: true
-          schema:
-            type: integer
-            minimum: 1
+      summary: Test endpoint
+      description: Test endpoint
       responses:
         '200':
-          description: Payment was paid.
-        '404':
-          description: Payment id not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '406':
-          description: Payment was unsuccessful.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          description: Test successful.
+#  /{id}/pay:
+#    patch:
+#      operationId: payPayment
+#      tags:
+#        - Payments
+#      summary: Pay the payment
+#      description: Pay the payment
+#      parameters:
+#        - name: id
+#          in: path
+#          description: Payment id
+#          required: true
+#          schema:
+#            type: integer
+#            minimum: 1
+#      responses:
+#        '200':
+#          description: Payment was paid.
+#        '404':
+#          description: Payment id not found.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        '406':
+#          description: Payment was unsuccessful.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
