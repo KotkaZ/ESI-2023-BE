@@ -65,6 +65,8 @@ public class BookingsService {
         booking.setModifiedAt(OffsetDateTime.now());
 
         bookingsRepository.saveAndFlush(booking);
+
+        eventService.publishBooking(bookingsMapper.mapToEvent(booking));
     }
 
     // Throws an exception if the room does not exist
