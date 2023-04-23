@@ -28,5 +28,7 @@ public class CheckingEvent {
 
     private LocalDate checkOutAt;
 
+    private String code;
+
 }
 
