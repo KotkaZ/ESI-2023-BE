@@ -1,8 +1,5 @@
 package com.esi.notifications.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -22,6 +19,8 @@ public class BookingEvent {
     private Integer userId;
 
     private Integer roomId;
+
+    private BookingStatus status;
 
     private LocalDate startDate;
 

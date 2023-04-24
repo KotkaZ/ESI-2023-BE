@@ -18,7 +18,7 @@ import java.time.OffsetDateTime;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentId;
+    private Integer id;
     private Integer bookingId;
     private Integer userId;
 

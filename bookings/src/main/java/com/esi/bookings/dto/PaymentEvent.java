@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Builder
 @Data
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PaymentEvent {
 
-    private Integer Id;
+    private Integer id;
 
     private Integer bookingId;
 
@@ -24,9 +24,9 @@ public class PaymentEvent {
 
     private BigDecimal totalAmount;
 
-    private LocalDate checkInAt;
+    private PaymentStatus status;
 
-    private LocalDate changedAt;
+    private OffsetDateTime changedAt;
 
 }
 

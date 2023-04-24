@@ -6,6 +6,7 @@ import com.esi.bookings.models.BookingCreateDto;
 import com.esi.bookings.models.BookingDto;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BookingsMapper {
@@ -20,6 +21,7 @@ public interface BookingsMapper {
 
     Booking bookingCreateDtoToEntity(BookingCreateDto bookingCreateDto);
 
+    @Mapping(target = "status", source = "status")
     BookingEvent mapToEvent(Booking booking);
 
 }

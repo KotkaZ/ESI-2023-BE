@@ -1,16 +1,11 @@
 package com.esi.bookings.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.OffsetDateTime;
 
 @Builder
 @Data
@@ -18,14 +13,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CheckingEvent {
 
-    private Integer Id;
+    private Integer id;
 
     private Integer bookingId;
 
     private Integer roomId;
 
-    private LocalDate checkInAt;
+    private OffsetDateTime checkInAt;
 
-    private LocalDate checkOutAt;
+    private OffsetDateTime checkOutAt;
+
+    private String code;
 }
 
