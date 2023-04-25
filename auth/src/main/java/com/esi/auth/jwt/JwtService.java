@@ -62,7 +62,8 @@ public class JwtService {
                 .setSubject(userName)
                 //.addClaims(roles)
                 .setIssuedAt(new Date(System.currentTimeMillis())) // not required
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60)) // when setting an expiration "Date", we use milliseconds, the easiet way to set it is using the following format 1000(1000 milliseconds  = second)*60 (1 second * 60 =  a minutes) *60 (1 minute * 60 =  1 hour) -> 1000*60*60 = 1 hour
+                // token for 2 months
+                .setExpiration(new Date(System.currentTimeMillis()+ 1000L*60*60*1440)) // when setting an expiration "Date", we use milliseconds, the easiet way to set it is using the following format 1000(1000 milliseconds  = second)*60 (1 second * 60 =  a minutes) *60 (1 minute * 60 =  1 hour) * 1440 (hours in 2 months) -> 1000*60*60 = 1 hour
                 // .signWith(Key key, SignatureAlgorithm alg) signs the constructed JWT with the specified key using the specified algorithm, producing a JWS.
                 // For the key, we are using a function to created, and for the SignatureAlgorithm we are using the "HS256" hashing algorithm.
                 // .compact() is the final step, and it builds the JWT and serializes it to a compact, URL-safe string according to the JWT Compact Serialization rules.
