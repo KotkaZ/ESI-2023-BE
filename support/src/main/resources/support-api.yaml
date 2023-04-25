@@ -62,7 +62,34 @@ paths:
 #            application/json:
 #              schema:
 #                $ref: '#/components/schemas/Error'
-
+  /{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Room id
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+    get:
+      operationId: getRequestById
+      tags:
+        - Support
+      summary: Query a support request by id.
+      description: Collects a support request with given id.
+      responses:
+        '200':
+          description: Returned a support request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+        '404':
+          description: Room not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /{id}/start:
     parameters:
       - name: id
@@ -122,6 +149,32 @@ paths:
 
 components:
   schemas:
+    Support:
+      properties:
+        requestId:
+          type: integer
+          description: Cleaning request id
+          example: 1
+        bookingId:
+          type: integer
+          description: Booking id
+          example: 123
+        assignedTo:
+          type: integer
+          description: User id assigned to the request
+          example: 2
+        requestedAt:
+          type: string
+          format: date-time
+          description: date and time the request
+        cleaningStartedAt:
+          type: string
+          format: date-time
+          description: date and time of the cleaning started
+        cleanedAt:
+          type: string
+          format: date-time
+          description: date and time of the cleaning finished
     DirtyEntity:
       type: object
       properties:

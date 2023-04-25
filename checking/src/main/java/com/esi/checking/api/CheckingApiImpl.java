@@ -5,7 +5,6 @@ import com.esi.checking.CheckingApi;
 import com.esi.checking.mapper.CheckingMapper;
 import com.esi.checking.models.CheckingDto;
 import com.esi.checking.models.CodeDto;
-import com.esi.checking.models.GetCode200ResponseDto;
 import com.esi.checking.repository.CheckingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -68,9 +67,8 @@ public class CheckingApiImpl implements CheckingApi {
     private String generateCodeString(){
         int min = 0;
         int max = 99999;
-        int random_int = (int)Math.floor(Math.random() * (max - min + 1) + min);
 
-        String codeString = String.valueOf(random_int);
+        String codeString = String.valueOf((int)Math.floor(Math.random() * (max - min + 1) + min));
         int codeStringLen = codeString.length();
         return "0".repeat(5-codeStringLen) + codeString;
     }
