@@ -78,6 +78,14 @@ paths:
         - Support
       summary: Marks cleaning request as started.
       description: Marks cleaning request as started.
+      parameters:
+        - name: assignedTo
+          in: query
+          description: User id assigned to the task
+          required: true
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '201':
           description: Cleaning request marked as started.
@@ -117,13 +125,13 @@ components:
     DirtyEntity:
       type: object
       properties:
-        cleaningRequestId:
+        requestId:
           type: integer
           description: Cleaning request id
           example: 1
-        roomId:
+        bookingId:
           type: integer
-          description: Room id
+          description: Booking id
           example: 123
     CleaningRequestCreate:
         type: object

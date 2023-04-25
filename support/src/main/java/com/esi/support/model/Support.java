@@ -21,5 +21,6 @@ public class Support {
     private Integer bookingId;
     private Integer assignedTo;
     private OffsetDateTime requestedAt;
+    private OffsetDateTime cleaningStartedAt;
     private OffsetDateTime cleanedAt;
 }
