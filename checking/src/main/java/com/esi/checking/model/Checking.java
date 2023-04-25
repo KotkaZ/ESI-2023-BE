@@ -16,8 +16,6 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class Checking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private Integer bookingId;
     private Integer roomId;
     private OffsetDateTime checkInAt;

@@ -85,11 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Code for the entry to the room.
+                $ref: '#/components/schemas/Code'
         '404':
           description: Booking not found.
           content:
@@ -108,11 +104,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Code for the entry to the room.
+                $ref: '#/components/schemas/Code'
         '404':
           description: Booking not found.
           content:
@@ -122,6 +114,12 @@ paths:
 
 components:
   schemas:
+    Code:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code for the entry to the room.
     Error:
       type: object
       properties:
