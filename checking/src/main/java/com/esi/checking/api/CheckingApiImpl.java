@@ -26,6 +26,13 @@ public class CheckingApiImpl implements CheckingApi {
     private final CheckingRepository checkingRepository;
 
     @Override
+    public ResponseEntity<CheckingDto> getCheckingById(Integer bookingId) {
+        val checking = checkingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Checkin not found"));
+        return ResponseEntity.ok(checkingMapper.entityToDto(checking));
+    }
+
+    @Override
     public ResponseEntity<Void> checkinToRooms(Integer bookingId) {
         val checkingIn = checkingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "You have already checked in"));
