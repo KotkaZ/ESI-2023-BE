@@ -15,6 +15,34 @@ tags:
   - name: Checking
     description: API containing information about checking
 paths:
+  /{bookingId}:
+    parameters:
+      - name: bookingId
+        in: path
+        description: Booking id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      operationId: getCheckingById
+      tags:
+        - Checking
+      summary: Retrieve by id
+      description: Retrieve by id
+      responses:
+        '200':
+          description: Returned a checking entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checking'
+        '404':
+          description: Booking not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /{bookingId}/checkin:
     parameters:
       - name: bookingId
@@ -114,6 +142,26 @@ paths:
 
 components:
   schemas:
+    Checking:
+      type: object
+      properties:
+        bookingId:
+          type: integer
+          description: id of the booking
+        roomId:
+          type: integer
+          description: id of the room
+        checkInAt:
+          type: string
+          format: date-time
+          description: date and time of the check-in
+        checkOutAt:
+          type: string
+          format: date-time
+          description: date and time of the check-out
+        code:
+          type: string
+          description: Code for the entry to room(s)
     Code:
       type: object
       properties:
