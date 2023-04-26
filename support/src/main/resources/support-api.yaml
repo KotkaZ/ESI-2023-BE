@@ -31,37 +31,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DirtyEntity'
-#  /{bookingId}/create:
-#    parameters:
-#      - name: bookingId
-#        in: path
-#        description: Booking id
-#        required: true
-#        schema:
-#          type: integer
-#          minimum: 1
-#    post:
-#      operationId: createCleaningRequest
-#      tags:
-#        - Support
-#      summary: Creates a cleaning request for a booking.
-#      description: Creates a cleaning request for a booking.
-#      requestBody:
-#        description: Cleaning request DTO to create cleaning request.
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/CleaningRequestCreate'
-#      responses:
-#        '201':
-#          description: Cleaning request created.
-#        '404':
-#          description: Booking not found.
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
   /{id}:
     parameters:
       - name: id
