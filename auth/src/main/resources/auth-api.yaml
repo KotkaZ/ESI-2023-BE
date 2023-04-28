@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: Auth API
+  version: 0.0.1
+  description: |
+    The Authentication API spec.
+
+servers:
+  - url: http://localhost:8080/api/auth
+    description: Local development server
+externalDocs:
+  url: https://swagger.io/specification/
+  description: Find more information about OAS3.0 standard.
+tags:
+  - name: Auth
+    description: API containing handling authentication
+paths:
+  /login:
+    post:
+      operationId: loginAndGetToken
+      tags:
+        - Auth
+      summary:  Login endpoint
+      description: Logins user and returns a bearer token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Bearer token as response string
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /signup:
+    post:
+      operationId: signupUser
+      tags:
+        - Auth
+      summary: Signup endpoint
+      description: Signs up a new user and returns a bearer token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Bearer token as response string
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /authenticate:
+    parameters:
+      - in: header
+        name: Authorization
+        schema:
+          type: string
+        required: true
+    get:
+      operationId: authenticate
+      tags:
+        - Auth
+      summary: Authenticate with Authorization header
+      description: Logins user and returns a bearer token
+      responses:
+        '200':
+          description: Boolean value, which defines if user is authenticated
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+          description: Username is used as login credential
+        password:
+          type: string
+          description: Password in plain text format
+        role:
+          type: string
+          description: User role defined on signup
+
