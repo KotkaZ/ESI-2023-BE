@@ -3,16 +3,17 @@ package com.esi.apigateway.util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
 
-    public static final String SECRET = "4D6351665468576D5A7134743777217A25432A462D4A614E645267556B586E32";
+    @Value("${esi.auth.secret}")
+    private String SECRET;
 
-    public void validateToken(final String token) {
+    public void validateToken(String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
 
