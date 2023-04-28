@@ -6,6 +6,8 @@ import com.esi.checking.mapper.CheckingMapper;
 import com.esi.checking.models.CheckingDto;
 import com.esi.checking.models.CodeDto;
 import com.esi.checking.repository.CheckingRepository;
+import com.esi.checking.service.EventService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class CheckingApiImpl implements CheckingApi {
 
     private final CheckingMapper checkingMapper;
     private final CheckingRepository checkingRepository;
+    private final EventService eventService;
 
     @Override
     public ResponseEntity<CheckingDto> getCheckingById(Integer bookingId) {
@@ -39,6 +42,11 @@ public class CheckingApiImpl implements CheckingApi {
         checkingIn.setCheckInAt(OffsetDateTime.now());
 
         checkingRepository.save(checkingIn);
+
+        var checkingEvent = checkingMapper.mapToEvent(checkingIn);
+
+        eventService.publishChecking(checkingEvent);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -50,6 +58,11 @@ public class CheckingApiImpl implements CheckingApi {
         checkingIn.setCheckOutAt(OffsetDateTime.now());
 
         checkingRepository.save(checkingIn);
+
+        var checkingEvent = checkingMapper.mapToEvent(checkingIn);
+
+        eventService.publishChecking(checkingEvent);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
