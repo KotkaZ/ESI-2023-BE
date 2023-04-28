@@ -54,6 +54,6 @@ public class EventService {
 
         var eventMsg = mapper.mapToEvent(checking);
 
-        publishChecking(mapper.mapToEvent(checking));
+        publishChecking(eventMsg);
     }
 }
