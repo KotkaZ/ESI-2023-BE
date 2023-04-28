@@ -10,15 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    @Value("${esi.auth.secret}")
-    private String SECRET;
+    private static String SECRET;
 
-    public void validateToken(String token) {
+    public static void validateToken(String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
 
-    private Key getSignKey() {
+    private static Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Value("${esi.auth.secret}")
+    public void setSECRET(String SECRET) {
+        JwtUtil.SECRET = SECRET;
     }
 }

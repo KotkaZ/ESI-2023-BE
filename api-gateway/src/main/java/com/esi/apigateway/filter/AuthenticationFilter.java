@@ -1,22 +1,22 @@
 package com.esi.apigateway.filter;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
+import com.esi.apigateway.util.JwtUtil;
+import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.esi.apigateway.util.JwtUtil;
-
+@Slf4j
 @Component
-public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
-
-    @Autowired
-    private RouteValidator validator;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+public class AuthenticationFilter
+    extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -25,24 +25,33 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            if (validator.isSecured.test(exchange.getRequest())) {
-                //header contains token or not
-                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    throw new RuntimeException("no authorization header");
+            if (RouteValidator.isSecured.test(exchange.getRequest())) {
+
+                val authorizationHeader = exchange.getRequest()
+                    .getHeaders().get(HttpHeaders.AUTHORIZATION);
+
+                if (Objects.isNull(authorizationHeader) || authorizationHeader.isEmpty()) {
+                    log.warn("{} accessed without authorization header",
+                        exchange.getRequest().getPath());
+                    throw new ResponseStatusException(FORBIDDEN, "No Authorization header");
                 }
-                String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+
+                String authHeader = authorizationHeader.get(0);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
                 }
                 try {
-                    jwtUtil.validateToken(authHeader);
+                    JwtUtil.validateToken(authHeader);
                 } catch (Exception e) {
-                    throw new RuntimeException("unauthorized access to application");
+                    log.warn("{} accessed with invalid authorization header {}",
+                        exchange.getRequest().getPath(), authHeader);
+                    throw new ResponseStatusException(FORBIDDEN, "Invalid authorization token");
                 }
             }
             return chain.filter(exchange);
         });
     }
+
     public static class Config {
     }
 }
