@@ -19,6 +19,7 @@ public class Support {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer requestId;
     private Integer bookingId;
+    private Integer roomId;
     private Integer assignedTo;
     private OffsetDateTime requestedAt;
     private OffsetDateTime cleaningStartedAt;
