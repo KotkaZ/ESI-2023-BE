@@ -1,4 +1,4 @@
-package com.esi.payments.service;
+package com.esi.support.service;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.annotation.KafkaListener;

@@ -31,38 +31,34 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DirtyEntity'
-#  /{bookingId}/create:
-#    parameters:
-#      - name: bookingId
-#        in: path
-#        description: Booking id
-#        required: true
-#        schema:
-#          type: integer
-#          minimum: 1
-#    post:
-#      operationId: createCleaningRequest
-#      tags:
-#        - Support
-#      summary: Creates a cleaning request for a booking.
-#      description: Creates a cleaning request for a booking.
-#      requestBody:
-#        description: Cleaning request DTO to create cleaning request.
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/CleaningRequestCreate'
-#      responses:
-#        '201':
-#          description: Cleaning request created.
-#        '404':
-#          description: Booking not found.
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-
+  /{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Room id
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+    get:
+      operationId: getRequestById
+      tags:
+        - Support
+      summary: Query a support request by id.
+      description: Collects a support request with given id.
+      responses:
+        '200':
+          description: Returned a support request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+        '404':
+          description: Room not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /{id}/start:
     parameters:
       - name: id
@@ -78,6 +74,14 @@ paths:
         - Support
       summary: Marks cleaning request as started.
       description: Marks cleaning request as started.
+      parameters:
+        - name: assignedTo
+          in: query
+          description: User id assigned to the task
+          required: true
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '201':
           description: Cleaning request marked as started.
@@ -114,16 +118,42 @@ paths:
 
 components:
   schemas:
-    DirtyEntity:
-      type: object
+    Support:
       properties:
-        cleaningRequestId:
+        requestId:
           type: integer
           description: Cleaning request id
           example: 1
-        roomId:
+        bookingId:
           type: integer
-          description: Room id
+          description: Booking id
+          example: 123
+        assignedTo:
+          type: integer
+          description: User id assigned to the request
+          example: 2
+        requestedAt:
+          type: string
+          format: date-time
+          description: date and time the request
+        cleaningStartedAt:
+          type: string
+          format: date-time
+          description: date and time of the cleaning started
+        cleanedAt:
+          type: string
+          format: date-time
+          description: date and time of the cleaning finished
+    DirtyEntity:
+      type: object
+      properties:
+        requestId:
+          type: integer
+          description: Cleaning request id
+          example: 1
+        bookingId:
+          type: integer
+          description: Booking id
           example: 123
     CleaningRequestCreate:
         type: object
