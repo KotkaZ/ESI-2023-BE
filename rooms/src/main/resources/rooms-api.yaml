@@ -14,6 +14,8 @@ externalDocs:
 tags:
   - name: Rooms
     description: API containing information about rooms
+security:
+  - bearerAuth: []
 paths:
   /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
     get:
@@ -145,6 +147,11 @@ paths:
                     schema:
                       $ref: '#/components/schemas/Error'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Room:
       type: object

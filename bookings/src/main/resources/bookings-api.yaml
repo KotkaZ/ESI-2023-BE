@@ -14,6 +14,8 @@ externalDocs:
 tags:
   - name: Bookings
     description: API containing information about bookings
+security:
+  - bearerAuth: []
 paths:
   /:
     get:
@@ -144,6 +146,11 @@ paths:
                 type: boolean
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     BookingCreate:
       type: object

@@ -14,6 +14,8 @@ externalDocs:
 tags:
   - name: Notifications
     description: API containing information about notifications
+security:
+  - bearerAuth: []
 paths:
   /: # don't forget to add the slash at the end. http://localhost:8080/api/rooms/
     get:
@@ -25,3 +27,10 @@ paths:
       responses:
         '200':
           description: getExample returns 200.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
