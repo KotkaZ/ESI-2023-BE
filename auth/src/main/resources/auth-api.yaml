@@ -61,6 +61,12 @@ paths:
     get:
       security:
         - bearerAuth: [ ]
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       operationId: authenticate
       tags:
         - Auth
