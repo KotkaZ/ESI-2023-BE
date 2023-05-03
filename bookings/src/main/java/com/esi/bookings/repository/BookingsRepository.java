@@ -11,8 +11,22 @@ public interface BookingsRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByUserId(Integer userId);
 
-    @Query("SELECT case when (count(b) > 0)  then true else false end FROM Booking b "
-        + "WHERE b.roomId = :roomId AND b.startDate > :endDate AND b.endDate < :startDate")
+    // A.end >= B.start AND A.start <= B.end
+    @Query("""
+        SELECT
+            CASE WHEN
+              (b.startDate BETWEEN :startDate AND :endDate) OR
+              (b.endDate BETWEEN :startDate AND :endDate) OR
+              (b.startDate <= :startDate AND b.endDate >= :endDate) OR
+              (b.startDate >= :startDate AND b.endDate <= :endDate)
+            THEN
+                TRUE
+            ELSE
+                FALSE
+            END
+        FROM Booking b
+        WHERE b.roomId = :roomId
+        """)
     boolean existsBookingInSpecificTimeRange(
             @Param("roomId") Integer roomId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
