@@ -2,17 +2,16 @@ package com.esi.auth.config;
 
 import com.esi.auth.user.model.User;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class MyUserDetails extends User implements UserDetails {
+
+@RequiredArgsConstructor
+public class MyUserDetails implements UserDetails {
 
     private final User user;
-
-    public MyUserDetails(final User user) {
-        this.user = user;
-    }
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
@@ -49,5 +48,9 @@ public class MyUserDetails extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Integer getId() {
+        return user.getId();
     }
 }
