@@ -50,7 +50,7 @@ public class BookingsService {
 
     public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
         checkIfRoomExists(roomId);
-        return bookingsRepository
+        return !bookingsRepository
             .existsBookingInSpecificTimeRange(roomId, endDate, startDate);
     }
 
