@@ -9,7 +9,6 @@ import com.esi.bookings.repository.BookingsRepository;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,8 @@ public class BookingsService {
     public boolean checkAvailability(Integer roomId, LocalDate startDate, LocalDate endDate) {
         checkIfRoomExists(roomId);
         return !bookingsRepository
-            .existsBookingInSpecificTimeRange(roomId, endDate, startDate);
+            .existsBookingInSpecificTimeRange(roomId, endDate, startDate)
+            .orElse(false);
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {
@@ -74,10 +74,10 @@ public class BookingsService {
         webClientBuilder
             .build()
             .get()
-            .uri( ROOMS_SERVICE_BASE_PATH + "/{id}", roomId)
+            .uri(ROOMS_SERVICE_BASE_PATH + "/{id}", roomId)
             .retrieve()
             .onStatus(NOT_FOUND::equals,
-                    response -> Mono.error(new ResponseStatusException(NOT_FOUND, "Room not found")))
+                response -> Mono.error(new ResponseStatusException(NOT_FOUND, "Room not found")))
             .toBodilessEntity()
             .block();
     }

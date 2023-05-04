@@ -3,6 +3,7 @@ package com.esi.bookings.repository;
 import com.esi.bookings.model.Booking;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +28,6 @@ public interface BookingsRepository extends JpaRepository<Booking, Integer> {
         FROM Booking b
         WHERE b.roomId = :roomId
         """)
-    boolean existsBookingInSpecificTimeRange(
+    Optional<Boolean> existsBookingInSpecificTimeRange(
             @Param("roomId") Integer roomId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
